@@ -1,0 +1,101 @@
+version: 2
+
+models:
+  - name: stg_supplier_prices
+    description: Supplier price rows with trimmed SKUs and normalized costs.
+    columns:
+      - name: source_file
+        data_tests:
+          - not_null
+      - name: sku
+        data_tests:
+          - not_null
+      - name: valid_from
+        data_tests:
+          - not_null
+      - name: raw_cost
+        data_tests:
+          - not_null
+
+  - name: stg_orders
+    description: Delivered orders from the first supplier week, dated in Riyadh time.
+    columns:
+      - name: order_id
+        data_tests:
+          - not_null
+          - unique
+      - name: order_date
+        data_tests:
+          - not_null
+      - name: iso_week
+        data_tests:
+          - not_null
+
+  - name: product_cost_history
+    description: SCD2 history of usable supplier costs.
+    columns:
+      - name: sku
+        data_tests:
+          - not_null
+      - name: unit_cost_sar
+        data_tests:
+          - not_null
+      - name: valid_from
+        data_tests:
+          - not_null
+      - name: is_current
+        data_tests:
+          - not_null
+
+  - name: price_quarantine
+    description: Supplier rows rejected because of an unknown SKU or invalid cost.
+    columns:
+      - name: source_file
+        data_tests:
+          - not_null
+      - name: sku
+        data_tests:
+          - not_null
+      - name: valid_from
+        data_tests:
+          - not_null
+      - name: raw_cost
+        data_tests:
+          - not_null
+      - name: reason
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['unknown_sku', 'invalid_cost']
+
+  - name: weekly_margin
+    description: Weekly gross margin by ISO week, city and category.
+    columns:
+      - name: iso_week
+        data_tests:
+          - not_null
+      - name: city
+        data_tests:
+          - not_null
+      - name: category
+        data_tests:
+          - not_null
+      - name: lines
+        data_tests:
+          - not_null
+      - name: revenue_sar
+        data_tests:
+          - not_null
+      - name: costed_revenue_sar
+        data_tests:
+          - not_null
+      - name: cost_sar
+        data_tests:
+          - not_null
+      - name: margin_sar
+        data_tests:
+          - not_null
+      - name: uncosted_lines
+        data_tests:
+          - not_null
