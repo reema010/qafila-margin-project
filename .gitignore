@@ -4,7 +4,7 @@ data_*/
 warehouse/
 *.duckdb
 *.duckdb.wal
-
+warehouse_*/
 # environments and tool output
 .venv/
 __pycache__/
