@@ -104,7 +104,7 @@ def publish(db: Path, warehouse: Path) -> None:
     with duckdb.connect(str(db), read_only=True) as con:
         built_tables = {
             (namespace, name): con.execute(
-                f'SELECT * FROM "{namespace}"."{name}"'
+                f'SELECT * FROM "main_{namespace}"."{name}"'
             ).fetch_arrow_table()
             for namespace, name in outputs
         }
